@@ -1,0 +1,32 @@
+version: '3.4'
+services:
+   db:
+     image: mysql:5
+     hostname: db
+     environment:
+       - MYSQL_ROOT_PASSWORD=dupa
+     networks:
+        app1:
+     volumes:
+       - mysql-datastore:/var/lib/mysql
+   phpmyadmin:
+     image: phpmyadmin/phpmyadmin
+     ports:
+       - 8080:80/tcp
+     environment:
+       - MYSQL_ROOT_PASSWORD=dupa
+     networks:
+       app1:
+   php:
+     image: php:custom
+     build:
+       context: .
+       dockerfile: Dockerfile
+     networks:
+       app1:
+     ports:
+       - 80:80/tcp
+networks:
+  app1:
+volumes:
+  mysql-datastore:  
